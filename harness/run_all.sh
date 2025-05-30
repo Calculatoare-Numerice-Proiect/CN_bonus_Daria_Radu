@@ -20,7 +20,7 @@ run_cpu_mon() {
   #
   "$bench" > "../results/raw/$outcsv" &
   pid=$!
-  harness/monitor_sys.sh 1 "../results/raw/${mon}_sys.csv" $pid &
+  bash monitor_sys.sh 1 "../results/raw/${mon}_sys.csv" $pid &
   mon_pid=$!
   wait $pid
   kill $mon_pid
@@ -46,9 +46,9 @@ run_cpu_mon "../microbenchmarks/thread_scalability"   thread_scalability.csv thr
 
 # 3) Run workloads
 #   sort and sql are CPU‐only
-run_cpu_mon "python3 ../workloads/sort_benchmark.py ../results/raw/sort.csv" sort.csv sort
-run_cpu_mon "python3 ../workloads/sql_benchmark.py  ../results/raw/sql.csv"  sql.csv  sql
-run_cpu_mon "python3 ../workloads/ml_inference.py  ../results/raw/ml.csv"  ml.csv   ml
+run_cpu_mon "python3 ../workloads/sort_benchmark.py" sort.csv sort
+run_cpu_mon "python3 ../workloads/sql_benchmark.py "  sql.csv  sql
+run_cpu_mon "python3 ../workloads/ml_inference.py"  ml.csv   ml
 
 # # Run workloads
 # python3 ../workloads/sort_benchmark.py ../results/raw/sort.csv
@@ -58,9 +58,9 @@ run_cpu_mon "python3 ../workloads/ml_inference.py  ../results/raw/ml.csv"  ml.cs
 #   ML inference: monitor both CPU and GPU
 python3 ../workloads/ml_inference.py > ../results/raw/ml.csv &
 pid=$!
-harness/monitor_sys.sh 1 ../results/raw/ml_sys.csv $pid &
+bash monitor_sys.sh 1 ../results/raw/ml_sys.csv $pid &
 sys_mon=$!
-harness/monitor_gpu.sh 1 ../results/raw/ml_gpu.csv &
+bash monitor_gpu.sh 1 ../results/raw/ml_gpu.csv &
 gpu_mon=$!
 wait $pid
 kill $sys_mon $gpu_mon

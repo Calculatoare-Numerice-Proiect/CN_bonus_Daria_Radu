@@ -34,19 +34,19 @@ timing_df["avg_gpu_mem_pct"] = None
 
 for bm in timing_df.benchmark.unique():
     # CPU monitor log
-    cpu_log = f"results/raw/{bm}_sys.csv"
+    cpu_log = f"../results/raw/{bm}_sys.csv"
     if os.path.exists(cpu_log):
         sysdf = pd.read_csv(cpu_log)
         timing_df.loc[timing_df.benchmark==bm, "avg_cpu_pct"] = sysdf.cpu_pct.mean()
         timing_df.loc[timing_df.benchmark==bm, "max_mem_mb"]  = sysdf.mem_mb.max()
     # GPU monitor log
-    gpu_log = f"results/raw/{bm}_gpu.csv"
+    gpu_log = f"../results/raw/{bm}_gpu.csv"
     if os.path.exists(gpu_log):
         gpudf = pd.read_csv(gpu_log)
         timing_df.loc[timing_df.benchmark==bm, "avg_gpu_pct"]     = gpudf.util_gpu_pct.mean()
         timing_df.loc[timing_df.benchmark==bm, "avg_gpu_mem_pct"] = gpudf.util_mem_pct.mean()
 
 # 3) Write out the fully‐processed table
-os.makedirs("results/processed", exist_ok=True)
-timing_df.to_csv("results/processed/all_results.csv", index=False)
+os.makedirs("../results/processed", exist_ok=True)
+timing_df.to_csv("../results/processed/all_results.csv", index=False)
 print("Wrote merged results + utilization to results/processed/all_results.csv")
