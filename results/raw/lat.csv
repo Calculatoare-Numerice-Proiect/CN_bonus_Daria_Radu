@@ -1,1 +1,2 @@
-accesses=131072 time=0.000000
+accesses,time_s
+131072,0.000000

@@ -22,7 +22,9 @@ int main() {
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double elapsed = (t1.tv_sec - t0.tv_sec)
                      + (t1.tv_nsec - t0.tv_nsec) * 1e-9;
-    printf("accesses=%d time=%.6f\n", ITER, elapsed);
+    //printf("accesses=%d time=%.6f\n", ITER, elapsed);
+    printf("accesses,time_s\n");
+    printf("%d,%.6f\n", ITER, elapsed);
     free(buf);
     return 0;
 }

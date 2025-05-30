@@ -15,6 +15,8 @@ int main() {
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double elapsed = (t1.tv_sec - t0.tv_sec)
                      + (t1.tv_nsec - t0.tv_nsec) * 1e-9;
-    printf("ops=%llu time=%.6f\n", (unsigned long long)ITER * 2, elapsed);
+    // printf("ops=%llu time=%.6f\n", (unsigned long long)ITER * 2, elapsed);
+    printf("ops,time_s\n");
+    printf("%llu,%.6f\n", (unsigned long long)ITER * 2, elapsed);
     return 0;
 }
