@@ -1,20 +1,27 @@
+# harness/parse_results.py
 import pandas as pd
 
+# list of (benchmark name, raw csv path, its two column names)
 files = [
-    ("int","../results/raw/int.csv"),
-    ("flt","../results/raw/flt.csv"),
-    ("lat","../results/raw/lat.csv"),
-    ("bw","../results/raw/bw.csv"),
-    ("sort","../results/raw/sort.csv"),
-    ("sql","../results/raw/sql.csv"),
-    ("ml","../results/raw/ml.csv"),
+    ("int",  "results/raw/int.csv",  ["ops",     "time_s"]),
+    ("flt",  "results/raw/flt.csv",  ["ops",     "time_s"]),
+    ("lat",  "results/raw/lat.csv",  ["size_mb", "time_ns"]),
+    ("bw",   "results/raw/bw.csv",   ["size_mb", "time_ns"]),
+    ("sort", "results/raw/sort.csv", ["n",       "time_s"]),
+    ("sql",  "results/raw/sql.csv",  ["rows",    "time_s"]),
+    ("ml",   "results/raw/ml.csv",   ["samples", "time_s"]),
 ]
 
 df_list = []
-for name, path in files:
+for name, path, cols in files:
     df = pd.read_csv(path)
+    # rename its two columns to a standard x,y
+    df = df.rename(columns={cols[0]: "x", cols[1]: "y"})
     df["benchmark"] = name
+    df = df[["benchmark", "x", "y"]]
     df_list.append(df)
+
+# concatenate and write
 all_df = pd.concat(df_list, ignore_index=True)
-all_df.to_csv("../results/processed/all_results.csv", index=False)
-print("Merged into results/processed/all_results.csv")
+all_df.to_csv("results/processed/all_results.csv", index=False)
+print("Merged tidy results to results/processed/all_results.csv")
