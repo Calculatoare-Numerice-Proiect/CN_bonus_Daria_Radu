@@ -12,13 +12,13 @@ static const uint64_t ITERS[SIZES_COUNT] = {
 
 int main() {
     printf("ops,time_s\n");
-    for (int i = 0; i < SIZES_COUNT; i++) {
-        uint64_t ITER = ITERS[i];
+    for (int idx = 0; idx < SIZES_COUNT; idx++) {
+        uint64_t ITER = ITERS[idx];
         volatile double x = 1.0, y = 2.0, z = 0.0;
 
         struct timespec t0, t1;
         clock_gettime(CLOCK_MONOTONIC, &t0);
-        for (uint64_t j = 0; j < ITER; j++) {
+        for (uint64_t i = 0; i < ITER; i++) {
             z += x * y;
             x /= y;
         }
@@ -26,7 +26,9 @@ int main() {
 
         double elapsed = (t1.tv_sec - t0.tv_sec)
                        + (t1.tv_nsec - t0.tv_nsec) * 1e-9;
-        printf("%llu,%.6f\n", (unsigned long long)(ITER * 2), elapsed);
+        printf("%llu,%.6f\n",
+               (unsigned long long)(ITER * 2),
+               elapsed);
     }
     return 0;
 }
