@@ -44,11 +44,36 @@ run_cpu_mon "../microbenchmarks/thread_scalability"   thread_scalability.csv thr
 # ./../microbenchmarks/thread_scalability > ../results/raw/thread_scalability.csv
 
 
+# -------------------------
 # 3) Run workloads
-#   sort and sql are CPU‐only
-run_cpu_mon "python3 ../workloads/sort_benchmark.py" sort.csv sort
-run_cpu_mon "python3 ../workloads/sql_benchmark.py "  sql.csv  sql
-run_cpu_mon "python3 ../workloads/ml_inference.py"  ml.csv   ml
+# -------------------------
+
+# SORT benchmark (CPU only)
+python3 ../workloads/sort_benchmark.py ../results/raw/sort.csv &
+pid=$!
+./monitor_sys.sh 1 ../results/raw/sort_sys.csv $pid &
+mon=$!
+wait $pid
+kill $mon
+
+# SQL benchmark (CPU only)
+python3 ../workloads/sql_benchmark.py ../results/raw/sql.csv &
+pid=$!
+./monitor_sys.sh 1 ../results/raw/sql_sys.csv $pid &
+mon=$!
+wait $pid
+kill $mon
+
+# ML inference (CPU + GPU)
+python3 ../workloads/ml_inference.py ../results/raw/ml.csv &
+pid=$!
+./monitor_sys.sh 1 ../results/raw/ml_sys.csv $pid &
+cpu_mon=$!
+./monitor_gpu.sh 1 ../results/raw/ml_gpu.csv &
+gpu_mon=$!
+wait $pid
+kill $cpu_mon $gpu_mon
+
 
 # # Run workloads
 # python3 ../workloads/sort_benchmark.py ../results/raw/sort.csv
