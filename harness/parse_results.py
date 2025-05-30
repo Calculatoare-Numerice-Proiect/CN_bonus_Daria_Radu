@@ -3,13 +3,13 @@ import pandas as pd
 
 # list of (benchmark name, raw csv path, its two column names)
 files = [
-    ("int",  "results/raw/int.csv",  ["ops",     "time_s"]),
-    ("flt",  "results/raw/flt.csv",  ["ops",     "time_s"]),
-    ("lat",  "results/raw/lat.csv",  ["size_mb", "time_ns"]),
-    ("bw",   "results/raw/bw.csv",   ["size_mb", "time_ns"]),
-    ("sort", "results/raw/sort.csv", ["n",       "time_s"]),
-    ("sql",  "results/raw/sql.csv",  ["rows",    "time_s"]),
-    ("ml",   "results/raw/ml.csv",   ["samples", "time_s"]),
+    ("int",  "../results/raw/int.csv",  ["ops",     "time_s"]),
+    ("flt",  "../results/raw/flt.csv",  ["ops",     "time_s"]),
+    ("lat",  "../results/raw/lat.csv",  ["size_mb", "time_ns"]),
+    ("bw",   "../results/raw/bw.csv",   ["size_mb", "time_ns"]),
+    ("sort", "../results/raw/sort.csv", ["n",       "time_s"]),
+    ("sql",  "../results/raw/sql.csv",  ["rows",    "time_s"]),
+    ("ml",   "../results/raw/ml.csv",   ["samples", "time_s"]),
 ]
 
 df_list = []
@@ -23,5 +23,5 @@ for name, path, cols in files:
 
 # concatenate and write
 all_df = pd.concat(df_list, ignore_index=True)
-all_df.to_csv("results/processed/all_results.csv", index=False)
+all_df.to_csv("../results/processed/all_results.csv", index=False)
 print("Merged tidy results to results/processed/all_results.csv")
