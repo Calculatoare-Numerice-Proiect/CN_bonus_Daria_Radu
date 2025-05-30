@@ -5,10 +5,13 @@
 
 #define STRIDE      64               // bytes per cache line
 #define SIZES_COUNT 6
-#define REPEATS     10000            // number of full traversals per size
+// KB sizes to probe L1 → L3
+static const size_t SIZES_KB[SIZES_COUNT] = {4,32,256,1024,2048,4096};
 
-// sizes in KB: 4KB (L1) → 4MB (past L3)
-static const size_t SIZES_KB[SIZES_COUNT] = { 4,32,256,1024,2048,4096 };
+// How many times to traverse the entire buffer.
+// Too small → per-access noise, too large → overflow arithmetic.
+// 1000–10000 is usually fine.
+#define REPEATS 5000
 
 int main() {
     printf("size_kb,latency_ns\n");
@@ -19,7 +22,7 @@ int main() {
         size_t entries = bytes / STRIDE;
         volatile char *buf = aligned_alloc(STRIDE, bytes);
 
-        // build the pointer‐chase list
+        // build pointer‐chase list
         for (size_t i = 0; i < entries; i++) {
             size_t next = ((i + 1) % entries) * STRIDE;
             ((size_t*)buf)[i] = next;
@@ -36,12 +39,13 @@ int main() {
         }
         clock_gettime(CLOCK_MONOTONIC, &t1);
 
-        uint64_t total_ns = (t1.tv_sec  - t0.tv_sec ) * 1000000000ull
-                          + (t1.tv_nsec - t0.tv_nsec);
-        // average per access over all REPEATS traversals
-        double avg_ns = (double)total_ns / (entries * REPEATS);
+        uint64_t total_ns = (uint64_t)(t1.tv_sec  - t0.tv_sec ) * 1000000000ull
+                          + (uint64_t)(t1.tv_nsec - t0.tv_nsec);
 
-        // print with enough precision
+        // do floating‐point division *after* casting both operands to double
+        double avg_ns = (double)total_ns / ((double)entries * (double)REPEATS);
+
+        // print with 3 decimal places (e.g. 5.123 ns)
         printf("%zu,%.3f\n", kb, avg_ns);
 
         free((void*)buf);
