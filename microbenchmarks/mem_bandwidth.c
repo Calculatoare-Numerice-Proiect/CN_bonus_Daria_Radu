@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdint.h>
 
 #define MAX_MB    256     // up to 256 MiB
 #define STEP_MB   32      // step size
