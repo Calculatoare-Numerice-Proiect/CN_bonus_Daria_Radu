@@ -4,12 +4,13 @@ set -e
 mkdir -p ../results/raw ../results/processed ../plots
 
 # Compile microbenchmarks
-gcc -O3 ../microbenchmarks/cache_latency.c -o ../microbenchmarks/cache_latency
 gcc -O3 ../microbenchmarks/integer_throughput.c -o ../microbenchmarks/integer_throughput
 gcc -O3 ../microbenchmarks/float_throughput.c -o ../microbenchmarks/float_throughput -lm
 gcc -O3 ../microbenchmarks/mem_latency.c -o ../microbenchmarks/mem_latency
 gcc -O3 ../microbenchmarks/mem_bandwidth.c -o ../microbenchmarks/mem_bandwidth
 gcc -O3 -fopenmp ../microbenchmarks/thread_scalability.c -o ../microbenchmarks/thread_scalability
+# gcc -O3 ../microbenchmarks/cache_latency.c -o ../microbenchmarks/cache_latency
+gcc -Wall -o ../microbenchmarks/cache_latency ../microbenchmarks/cache_latency.c -lm
 
 # Run microbenchmarks
 ./../microbenchmarks/integer_throughput > ../results/raw/int.csv
