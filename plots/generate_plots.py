@@ -11,5 +11,5 @@ for bm in df.benchmark.unique():
     plt.xlabel(xcol)
     plt.ylabel(ycol)
     plt.title(f"{bm} performance")
-    plt.savefig(f"plots/{bm}.png")
+    plt.savefig(f"{bm}.png")
     plt.close()
