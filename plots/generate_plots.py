@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("results/processed/all_results.csv")
+df = pd.read_csv("../results/processed/all_results.csv")
+
 for bm in df.benchmark.unique():
     sub = df[df.benchmark == bm]
     xcol, ycol = sub.columns[0], sub.columns[1]
