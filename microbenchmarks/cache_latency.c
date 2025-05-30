@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdint.h>
 
 #define STRIDE      64               // one cache line
 #define SIZES_COUNT 6

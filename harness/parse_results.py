@@ -10,8 +10,8 @@ files = [
     ("sort", "../results/raw/sort.csv", ["n",       "time_s"]),
     ("sql",  "../results/raw/sql.csv",  ["rows",    "time_s"]),
     ("ml",   "../results/raw/ml.csv",   ["samples", "time_s"]),
-    ("cache",            "results/raw/cache_latency.csv",       ["size_kb",     "latency_ns"]),
-    ("thread_scalability","results/raw/thread_scalability.csv", ["threads",     "time_s"]),  # or ["threads,ops","time_s"] if you want to plot ops vs time
+    ("cache","../results/raw/cache_latency.csv",       ["size_kb",     "latency_ns"]),
+    ("thread_scalability","../results/raw/thread_scalability.csv", ["threads",     "time_s"]),  # or ["threads,ops","time_s"] if you want to plot ops vs time
 
 ]
 
