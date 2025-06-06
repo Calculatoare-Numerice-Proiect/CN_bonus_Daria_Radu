@@ -8,4 +8,5 @@ while true; do
     --format=csv,noheader,nounits | awk '{print $1, $2}')
   echo "$ts,$gpu,$mem" >> "$out"
   sleep "$interval"
+  
 done
